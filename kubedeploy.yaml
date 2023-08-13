@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kool-app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kool-app
+  template:
+    metadata:
+      labels:
+        app: kool-app
+    spec:
+      containers:
+        - name: kool-app-container
+          image: kubesandy/kool-app:latest
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+            requests:
+              cpu: "0.2"
+              memory: "256Mi"
