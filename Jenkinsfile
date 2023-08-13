@@ -1,6 +1,11 @@
 pipeline {
     agent any
-
+    
+    environment {
+        DOCKER_IMAGE = "kubesandy/kool-app"
+        DOCKER_TAG = "latest"
+    }
+    
     stages {
         stage('Checkout') {
             steps {
@@ -11,17 +16,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build("kool-app:${env.BUILD_ID}")
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
                 }
             }
         }
-
+        
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://hub.docker.com/repository/docker/kubesandy/kool-app/', 'docker-credentials') {
-                        dockerImage.push()
-                    }
+                    sh "docker login -u kubesandy -p Sandy*1220"
+                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
         }
