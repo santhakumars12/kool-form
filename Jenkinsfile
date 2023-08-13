@@ -24,7 +24,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    sh "docker login -u kubesandy -p Sandy*1220"
+                    sh "docker login -u kubesandy -p Kutty@1220"
                     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
